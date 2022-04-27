@@ -118,6 +118,16 @@ func GetJsonInt64(dJson interface{}, keys ...interface{}) (int64, error) {
 		} else {
 			return -1, errors.New("不是int格式")
 		}
+	} else if n, ok := d.(int64); ok {
+		return n, nil
+	} else if n, ok := d.(int32); ok {
+		return int64(n), nil
+	} else if n, ok := d.(int16); ok {
+		return int64(n), nil
+	} else if n, ok := d.(int8); ok {
+		return int64(n), nil
+	} else if n, ok := d.(int); ok {
+		return int64(n), nil
 	} else {
 		return -1, errors.New("不是int格式")
 	}
@@ -135,13 +145,6 @@ func GetJsonInt64Force(dJson interface{}, keys ...interface{}) (int64, error) {
 		} else {
 			return dInt, nil
 		}
-	} else if dNumber, ok := d.(json.Number); ok {
-		if dInt64, ok := dNumber.Int64(); ok == nil {
-			return dInt64, nil
-		} else {
-			return -1, errors.New("不是int格式")
-		}
-	} else {
-		return -1, errors.New("不是int格式")
 	}
+	return GetJsonInt64(dJson, keys...)
 }
